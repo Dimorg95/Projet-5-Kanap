@@ -4,6 +4,7 @@ let urlArticle = window.location.href;
 console.log(urlArticle);
 
 let urlModifier = new URL(urlArticle);
+console.log(urlModifier);
 let search_params = new URLSearchParams(urlModifier.search);
 
 if (search_params.has('id')) {
@@ -25,6 +26,9 @@ function AppelArticle() {
       resultatArticle = data;
       produitCliquer(resultatArticle);
       ajoutPanier(resultatArticle);
+    })
+    .catch((erreur) => {
+      alert('Fetch a rencontré un problème : ' + erreur.message);
     });
 }
 
@@ -77,7 +81,7 @@ function ajoutPanier() {
 
   //On ecoute le click du bouton ajout au panier
   bouton.addEventListener('click', (e) => {
-    //Si la quantité selectionner est compris entre 1 et 100
+    //Si la quantité selectionner est compris entre 1 et 100 et que la couleur est selectionner
     if (
       quantiter.value > 0 &&
       quantiter.value <= 100 &&

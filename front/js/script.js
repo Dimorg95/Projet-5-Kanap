@@ -13,6 +13,9 @@ function AppelAPI() {
     .then((data) => {
       resultatApi = data;
       creationProduit(resultatApi);
+    })
+    .catch((erreur) => {
+      alert('Fetch a rencontré un problème : ' + erreur.message);
     });
 }
 AppelAPI();
