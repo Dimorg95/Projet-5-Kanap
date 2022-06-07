@@ -87,50 +87,60 @@ function ajoutCarte(arr) {
   }
 }
 
-//-------Modification des quantitées
-let inputTableau = Array.from(document.querySelectorAll('.itemQuantity'));
+/**
+ * Modification des quantité avec l'input qui change
+ */
+function modifierQuantite() {
+  let inputTableau = Array.from(document.querySelectorAll('.itemQuantity'));
 
-for (let i = 0; i < inputTableau.length; i++) {
-  inputTableau[i].addEventListener('change', (e) => {
-    e.preventDefault();
+  for (let i = 0; i < inputTableau.length; i++) {
+    inputTableau[i].addEventListener('change', (e) => {
+      e.preventDefault();
 
-    let articleModifier = inputTableau[i].closest('article').dataset.id;
+      let articleModifier = inputTableau[i].closest('article').dataset.id;
 
-    let texteQuantite = inputTableau[i].previousElementSibling;
+      let texteQuantite = inputTableau[i].previousElementSibling;
 
-    //Si l'ID de l'article a modifier est égale a un id dans ajoutPanier
-    if (articleModifier == ajoutPanier[i].produitId) {
-      ajoutPanier[i].quantiteProduit = parseInt(inputTableau[i].value);
+      //Si l'ID de l'article a modifier est égale a un id dans ajoutPanier
+      if (articleModifier === ajoutPanier[i].produitId) {
+        ajoutPanier[i].quantiteProduit = parseInt(inputTableau[i].value);
+        localStorage.setItem('produit', JSON.stringify(ajoutPanier));
+        texteQuantite.innerText = 'Qté : ' + ajoutPanier[i].quantiteProduit;
+        calculDuPrix();
+        calculQuantitéTotal();
+      }
+    });
+  }
+}
+modifierQuantite();
+
+/**
+ * Suppression des produit au clique sur le Bouton Supprimer
+ */
+function supprimerArticle() {
+  let btnSupression = Array.from(document.querySelectorAll('.deleteItem'));
+
+  for (let i = 0; i < btnSupression.length; i++) {
+    btnSupression[i].addEventListener('click', (e) => {
+      e.preventDefault();
+
+      let idASupprimer = btnSupression[i].closest('article').dataset.id;
+
+      let couleurASupprimer = btnSupression[i].closest('article').dataset.color;
+
+      //Filtrer ajoutPanier pour isolé  l'article avec la meme id et la meme couleur
+      ajoutPanier = ajoutPanier.filter(
+        (e) =>
+          e.produitId !== idASupprimer || e.couleurProduit !== couleurASupprimer
+      );
+
       localStorage.setItem('produit', JSON.stringify(ajoutPanier));
-      texteQuantite.innerText = 'Qté : ' + ajoutPanier[i].quantiteProduit;
-      calculDuPrix();
-      calculQuantitéTotal();
-    }
-  });
+      alert('Ce produit a été supprimer');
+      window.location.href = 'cart.html';
+    });
+  }
 }
-
-//-------Suppression d'un article sur la page + dans le local storage
-let btnSupression = Array.from(document.querySelectorAll('.deleteItem'));
-
-for (let i = 0; i < btnSupression.length; i++) {
-  btnSupression[i].addEventListener('click', (e) => {
-    e.preventDefault();
-
-    let idASupprimer = btnSupression[i].closest('article').dataset.id;
-
-    let couleurASupprimer = btnSupression[i].closest('article').dataset.color;
-
-    //Filtrer ajoutPanier pour isolé  l'article avec la meme id et la meme couleur
-    ajoutPanier = ajoutPanier.filter(
-      (e) =>
-        e.produitId !== idASupprimer || e.couleurProduit !== couleurASupprimer
-    );
-
-    localStorage.setItem('produit', JSON.stringify(ajoutPanier));
-    alert('Ce produit a été supprimer');
-    window.location.href = 'cart.html';
-  });
-}
+supprimerArticle();
 
 /**
  * Calcule du prix total du panier

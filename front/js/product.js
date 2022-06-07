@@ -104,17 +104,6 @@ function ajoutPanier() {
 
       let produitStorage = JSON.parse(localStorage.getItem('produit'));
 
-      //Le pop up de confirmation et redirection au panier
-      function confirmation() {
-        if (
-          window.confirm(
-            `Votre commande de ${choixQuantite}  ${resultatArticle.name} en ${choixCouleur} est ajouté au panier. Cliquez sur OK pour consulter le panier`
-          )
-        ) {
-          window.location.href = 'cart.html';
-        }
-      }
-
       //si produit storage est true alors on cherche dans produit storage
       if (produitStorage) {
         let recherche = produitStorage.find(
@@ -128,13 +117,13 @@ function ajoutPanier() {
             parseInt(recherche.quantiteProduit);
           recherche.quantiteProduit = nvlQuantité;
           localStorage.setItem('produit', JSON.stringify(produitStorage));
-          confirmation();
+          confirmation(choixQuantite, choixCouleur, resultatArticle);
 
           //Sinon on push un nouveau produit (id ou couleur differente)
         } else {
           produitStorage.push(tableauProduit);
           localStorage.setItem('produit', JSON.stringify(produitStorage));
-          confirmation();
+          confirmation(choixQuantite, choixCouleur, resultatArticle);
         }
 
         //Si il n'est pas true  on push le premier article de notre produit storage
@@ -142,7 +131,7 @@ function ajoutPanier() {
         produitStorage = [];
         produitStorage.push(tableauProduit);
         localStorage.setItem('produit', JSON.stringify(produitStorage));
-        confirmation();
+        confirmation(choixQuantite, choixCouleur, resultatArticle);
       }
       //Sinon pop up d'alerte
     } else {
@@ -151,4 +140,20 @@ function ajoutPanier() {
       );
     }
   });
+}
+
+/**
+ * Pop Up de confirmation d'ajout au panier
+ * @param {*} choixQuantite la quantité choisie par l'utilisateur
+ * @param {*} choixCouleur la couleur choisie par l'utilisateur
+ * @param {*} resultatArticle Le nom du produit selectionner
+ */
+function confirmation(choixQuantite, choixCouleur, resultatArticle) {
+  if (
+    window.confirm(
+      `Votre commande de ${choixQuantite}  ${resultatArticle.name} en ${choixCouleur} est ajouté au panier. Cliquez sur OK pour consulter le panier`
+    )
+  ) {
+    window.location.href = 'cart.html';
+  }
 }
