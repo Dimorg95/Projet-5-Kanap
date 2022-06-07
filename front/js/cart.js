@@ -12,7 +12,13 @@ let totalPrice = document.getElementById('totalPrice');
 if (ajoutPanier) {
   ajoutCarte(ajoutPanier);
 } else {
-  console.log('Aucun produit dans le local storage');
+  if (
+    window.confirm(
+      `Votre panier est vide. Cliquez sur OK pour retourner sur la page d'acceuil`
+    )
+  ) {
+    window.location.href = 'index.html';
+  }
 }
 
 //Creation du Html
