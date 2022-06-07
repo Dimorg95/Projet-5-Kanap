@@ -1,15 +1,13 @@
 //Recuperation de L'Id dans l'url du produit cliquer
 
 let urlArticle = window.location.href;
-console.log(urlArticle);
 
 let urlModifier = new URL(urlArticle);
-console.log(urlModifier);
+
 let search_params = new URLSearchParams(urlModifier.search);
 
 if (search_params.has('id')) {
   var articleId = search_params.get('id');
-  console.log(articleId);
 }
 
 let resultatArticle = [];
