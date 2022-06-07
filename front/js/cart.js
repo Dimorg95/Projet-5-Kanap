@@ -207,64 +207,6 @@ btnValidation.addEventListener('click', (e) => {
     city: villeClient.value,
     email: emailClient.value,
   };
-  //Verification des données rentrées par l'utilisateur
-  const regexPrenomNom = (value) => {
-    return /^[A-Z][A-Za-z -]{2,20}$/.test(value);
-  };
-  //PRENOM
-  function controlePrenom() {
-    if (regexPrenomNom(prenomClient.value)) {
-      erreurPrenom.textContent = '';
-      return true;
-    } else {
-      erreurPrenom.textContent =
-        'Majuscule, minuscule, pas de chiffre et doit contenir 3 lettres minimum';
-      return false;
-    }
-  }
-  //NOM
-  function controleNom() {
-    if (regexPrenomNom(nomClient.value)) {
-      erreurClient.textContent = '';
-      return true;
-    } else {
-      erreurClient.textContent =
-        'Majuscule, minuscule, pas de chiffre et doit contenir 3 lettres minimum';
-    }
-  }
-  //ADRESSE
-  function controleAdresse() {
-    if (/^[a-zA-Z0-9\s,.'-]{3,}$/.test(adresseClient.value)) {
-      adresseErreur.textContent = '';
-      return true;
-    } else {
-      adresseErreur.textContent =
-        'Veuillez écrire une adresse valide comme : 12 rue du Tartanpion bat.1 le Tartanpion';
-      return false;
-    }
-  }
-  //VILLE
-  function controleVille() {
-    if (/^[A-Z][a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/.test(villeClient.value)) {
-      villeErreur.textContent = '';
-      return true;
-    } else {
-      villeErreur.textContent =
-        'Veuillez écrire une ville valide : Ville, Vil-le, Vil le';
-      return false;
-    }
-  }
-  //EMAIL
-  function controleEmail() {
-    if (/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(emailClient.value)) {
-      emailErreur.textContent = '';
-      return true;
-    } else {
-      emailErreur.textContent =
-        'Ecrivez un mail valide: tartanpion@hotmail.com';
-      return false;
-    }
-  }
 
   /**
    * Si notre formulaire est valide on l'enregistre dans le Local Storage
@@ -296,6 +238,64 @@ btnValidation.addEventListener('click', (e) => {
     alert('Veuillez bien remplir les champs du formulaire');
   }
 });
+
+//Verification des données rentrées par l'utilisateur
+//Regex pour le nom et prenom
+const regexPrenomNom = (value) => {
+  return /^[A-Z][A-Za-z -]{2,20}$/.test(value);
+};
+//PRENOM
+function controlePrenom() {
+  if (regexPrenomNom(prenomClient.value)) {
+    erreurPrenom.textContent = '';
+    return true;
+  } else {
+    erreurPrenom.textContent =
+      'Majuscule, minuscule, pas de chiffre et doit contenir 3 lettres minimum';
+    return false;
+  }
+}
+//NOM
+function controleNom() {
+  if (regexPrenomNom(nomClient.value)) {
+    erreurClient.textContent = '';
+    return true;
+  } else {
+    erreurClient.textContent =
+      'Majuscule, minuscule, pas de chiffre et doit contenir 3 lettres minimum';
+  }
+}
+//ADRESSE
+function controleAdresse() {
+  if (/^[a-zA-Z0-9\s,.'-]{3,}$/.test(adresseClient.value)) {
+    adresseErreur.textContent = '';
+    return true;
+  } else {
+    adresseErreur.textContent =
+      'Veuillez écrire une adresse valide comme : 12 rue du Tartanpion bat.1 le Tartanpion';
+    return false;
+  }
+}
+//VILLE
+function controleVille() {
+  if (/^[A-Z][a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/.test(villeClient.value)) {
+    villeErreur.textContent = '';
+    return true;
+  } else {
+    villeErreur.textContent =
+      'Veuillez écrire une ville valide : Ville, Vil-le, Vil le';
+    return false;
+  }
+}
+function controleEmail() {
+  if (/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(emailClient.value)) {
+    emailErreur.textContent = '';
+    return true;
+  } else {
+    emailErreur.textContent = 'Ecrivez un mail valide: tartanpion@hotmail.com';
+    return false;
+  }
+}
 
 /**
  * Requète POST a l'API :
