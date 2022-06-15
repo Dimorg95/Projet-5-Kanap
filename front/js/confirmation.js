@@ -9,4 +9,4 @@ function rechargmentPage() {
   window.location.href = 'index.html';
 }
 
-setTimeout(rechargmentPage, 30000);
+setTimeout(rechargmentPage, 15000);

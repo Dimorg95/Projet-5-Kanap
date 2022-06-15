@@ -186,10 +186,10 @@ function calculQuantitéTotal() {
 //Récupération des champs de texte du formulaire
 
 let prenomClient = document.querySelector('#firstName');
-let erreurPrenom = document.querySelector('#firstNameErrorMsg');
+let prenomErreur = document.querySelector('#firstNameErrorMsg');
 
 let nomClient = document.querySelector('#lastName');
-let erreurClient = document.querySelector('#lastNameErrorMsg');
+let clientErreur = document.querySelector('#lastNameErrorMsg');
 
 let adresseClient = document.querySelector('#address');
 let adresseErreur = document.querySelector('#addressErrorMsg');
@@ -253,10 +253,10 @@ const regexPrenomNom = (value) => {
 //PRENOM
 function controlePrenom() {
   if (regexPrenomNom(prenomClient.value)) {
-    erreurPrenom.textContent = '';
+    prenomErreur.textContent = '';
     return true;
   } else {
-    erreurPrenom.textContent =
+    prenomErreur.textContent =
       'Majuscule, minuscule, pas de chiffre et doit contenir 3 lettres minimum';
     return false;
   }
@@ -264,10 +264,10 @@ function controlePrenom() {
 //NOM
 function controleNom() {
   if (regexPrenomNom(nomClient.value)) {
-    erreurClient.textContent = '';
+    clientErreur.textContent = '';
     return true;
   } else {
-    erreurClient.textContent =
+    clientErreur.textContent =
       'Majuscule, minuscule, pas de chiffre et doit contenir 3 lettres minimum';
   }
 }
