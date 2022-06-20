@@ -80,10 +80,11 @@ function ajoutPanier() {
   //On ecoute le click du bouton ajout au panier
   bouton.addEventListener('click', (e) => {
     //Si la quantité selectionner est compris entre 1 et 100 et que la couleur est selectionner
+
     if (
       quantiter.value > 0 &&
       quantiter.value <= 100 &&
-      selectCouleur.value != 0
+      selectCouleur.value !== ''
     ) {
       let choixCouleur = selectCouleur.value;
 
