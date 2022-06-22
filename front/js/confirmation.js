@@ -5,8 +5,8 @@ function confirmationCommande() {
 }
 
 confirmationCommande();
-function rechargmentPage() {
+function reloadPage() {
   window.location.href = 'index.html';
 }
 
-setTimeout(rechargmentPage, 15000);
+setTimeout(reloadPage, 15000);

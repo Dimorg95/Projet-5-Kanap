@@ -1,51 +1,53 @@
 //Recuperation de L'Id dans l'url du produit cliquer
 
-let urlArticle = window.location.href;
+const urlArticle = window.location.href;
 
-let urlModifier = new URL(urlArticle);
+let urlEdit = new URL(urlArticle);
 
-let search_params = new URLSearchParams(urlModifier.search);
+let search_params = new URLSearchParams(urlEdit.search);
+
+let articleId;
 
 if (search_params.has('id')) {
-  var articleId = search_params.get('id');
+  articleId = search_params.get('id');
 }
 
-let resultatArticle = [];
+let resultArticle = [];
 
 /**
  * Requete API de l'article cliquer sur la page d'acceuille
  */
-function AppelArticle() {
+function callArticle() {
   fetch(`http://localhost:3000/api/products/${articleId}`)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      resultatArticle = data;
-      produitCliquer(resultatArticle);
-      ajoutPanier(resultatArticle);
+      resultArticle = data;
+      clickProduct(resultArticle);
+      addBasket(resultArticle);
     })
-    .catch((erreur) => {
-      alert('Fetch a rencontré un problème : ' + erreur.message);
+    .catch((error) => {
+      alert('Fetch a rencontré un problème : ' + error.message);
     });
 }
 
-AppelArticle();
+callArticle();
 
 //On recuperer les éléments HTML
 
-let itemImg = document.querySelector('.item__img');
-let titre = document.querySelector('#title');
-let prix = document.querySelector('#price');
-let description = document.querySelector('#description');
-let selectCouleur = document.querySelector('#colors');
-let quantiter = document.querySelector('#quantity');
+const itemImg = document.querySelector('.item__img');
+const title = document.querySelector('#title');
+const price = document.querySelector('#price');
+const description = document.querySelector('#description');
+const selectColor = document.querySelector('#colors');
+const quantity = document.querySelector('#quantity');
 
 /**
  * Création de la page produit avec la reponse de notre API
  * @param {Array} arr
  */
-function produitCliquer(arr) {
+function clickProduct(arr) {
   //image
   let image = document.createElement('img');
   image.src = arr.imageUrl;
@@ -53,20 +55,20 @@ function produitCliquer(arr) {
   itemImg.appendChild(image);
 
   //titre
-  titre.textContent = arr.name;
+  title.textContent = arr.name;
 
   //prix
-  prix.textContent = arr.price;
+  price.textContent = arr.price;
 
   //description
   description.textContent = arr.description;
 
   //Création des différentes options de couleurs
   for (const color of arr.colors) {
-    let option = document.createElement('option');
+    const option = document.createElement('option');
     option.value = color;
     option.textContent = color;
-    selectCouleur.appendChild(option);
+    selectColor.appendChild(option);
   }
 }
 
@@ -74,63 +76,63 @@ function produitCliquer(arr) {
  * Ajout au panier : Ajout et modification des produits à ajouter dans le panier
  * (dans le Local Storage)
  */
-function ajoutPanier() {
-  const bouton = document.querySelector('#addToCart');
+function addBasket() {
+  const button = document.querySelector('#addToCart');
 
   //On ecoute le click du bouton ajout au panier
-  bouton.addEventListener('click', (e) => {
+  button.addEventListener('click', (e) => {
     //Si la quantité selectionner est compris entre 1 et 100 et que la couleur est selectionner
 
     if (
-      quantiter.value > 0 &&
-      quantiter.value <= 100 &&
-      selectCouleur.value !== ''
+      quantity.value > 0 &&
+      quantity.value <= 100 &&
+      selectColor.value !== ''
     ) {
-      let choixCouleur = selectCouleur.value;
+      let colorChoice = selectColor.value;
 
-      let choixQuantite = quantiter.value;
+      let quantityChoice = quantity.value;
 
       //On crée le tableau qui va recuperer nos donnée
-      let tableauProduit = {
-        produitId: articleId,
-        couleurProduit: choixCouleur,
-        quantiteProduit: parseInt(choixQuantite),
-        prixProduit: resultatArticle.price,
-        nomProduit: resultatArticle.name,
-        photoProduit: resultatArticle.imageUrl,
-        altPhoto: resultatArticle.altTxt,
+      let tableProduct = {
+        productId: articleId,
+        productColor: colorChoice,
+        productQuantity: parseInt(quantityChoice),
+        productPrice: resultArticle.price,
+        productName: resultArticle.name,
+        productImage: resultArticle.imageUrl,
+        altImage: resultArticle.altTxt,
       };
 
-      let produitStorage = JSON.parse(localStorage.getItem('produit'));
+      let productStorage = JSON.parse(localStorage.getItem('product'));
 
       //si produit storage est true alors on cherche dans produit storage
-      if (produitStorage) {
-        let recherche = produitStorage.find(
-          (e) => e.produitId === articleId && e.couleurProduit === choixCouleur
+      if (productStorage) {
+        let search = productStorage.find(
+          (e) => e.productId === articleId && e.productColor === colorChoice
         );
 
         //Si notre tableau et notre local storage on  la meme id et la meme couleur ++quantité
-        if (recherche) {
-          let nvlQuantité =
-            parseInt(tableauProduit.quantiteProduit) +
-            parseInt(recherche.quantiteProduit);
-          recherche.quantiteProduit = nvlQuantité;
-          localStorage.setItem('produit', JSON.stringify(produitStorage));
-          confirmation(choixQuantite, choixCouleur, resultatArticle);
+        if (search) {
+          let newQuantity =
+            parseInt(tableProduct.productQuantity) +
+            parseInt(search.productQuantity);
+          search.productQuantity = newQuantity;
+          localStorage.setItem('product', JSON.stringify(productStorage));
+          confirmation(quantityChoice, colorChoice, resultArticle);
 
           //Sinon on push un nouveau produit (id ou couleur differente)
         } else {
-          produitStorage.push(tableauProduit);
-          localStorage.setItem('produit', JSON.stringify(produitStorage));
-          confirmation(choixQuantite, choixCouleur, resultatArticle);
+          productStorage.push(tableProduct);
+          localStorage.setItem('product', JSON.stringify(productStorage));
+          confirmation(quantityChoice, colorChoice, resultArticle);
         }
 
         //Si il n'est pas true  on push le premier article de notre produit storage
       } else {
-        produitStorage = [];
-        produitStorage.push(tableauProduit);
-        localStorage.setItem('produit', JSON.stringify(produitStorage));
-        confirmation(choixQuantite, choixCouleur, resultatArticle);
+        productStorage = [];
+        productStorage.push(tableProduct);
+        localStorage.setItem('product', JSON.stringify(productStorage));
+        confirmation(quantityChoice, colorChoice, resultArticle);
       }
       //Sinon pop up d'alerte
     } else {
@@ -143,14 +145,14 @@ function ajoutPanier() {
 
 /**
  * Pop Up de confirmation d'ajout au panier
- * @param {*} choixQuantite la quantité choisie par l'utilisateur
- * @param {*} choixCouleur la couleur choisie par l'utilisateur
- * @param {*} resultatArticle Le nom du produit selectionner
+ * @param {*} quantityChoice la quantité choisie par l'utilisateur
+ * @param {*} colorChoice la couleur choisie par l'utilisateur
+ * @param {*} resultArticle Le nom du produit selectionner
  */
-function confirmation(choixQuantite, choixCouleur, resultatArticle) {
+function confirmation(quantityChoice, colorChoice, resultArticle) {
   if (
     window.confirm(
-      `Votre commande de ${choixQuantite}  ${resultatArticle.name} en ${choixCouleur} est ajouté au panier. Cliquez sur OK pour consulter le panier`
+      `Votre commande de ${quantityChoice}  ${resultArticle.name} en ${colorChoice} est ajouté au panier. Cliquez sur OK pour consulter le panier`
     )
   ) {
     window.location.href = 'cart.html';

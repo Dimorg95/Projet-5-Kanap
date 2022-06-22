@@ -1,48 +1,48 @@
 let items = document.querySelector('#items');
-let url = `http://localhost:3000/api/products`;
-let resultatApi = [];
+const url = `http://localhost:3000/api/products`;
+let resultApi = [];
 
 /**
  * Premier appel a notre API + execution creationProduit
  */
-function AppelAPI() {
+function callApi() {
   fetch(url)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      resultatApi = data;
-      creationProduit(resultatApi);
+      resultApi = data;
+      createProduct(resultApi);
     })
-    .catch((erreur) => {
-      alert('Fetch a rencontré un problème : ' + erreur.message);
+    .catch((error) => {
+      alert('Fetch a rencontré un problème : ' + error.message);
     });
 }
-AppelAPI();
+callApi();
 
 /**
  * Création de la page d'acceuille via la reponse
  * de notre API
  * @param {Array} arr
  */
-function creationProduit(arr) {
+function createProduct(arr) {
   for (let i = 0; i < arr.length; i++) {
-    let lien = document.createElement('a');
-    let article = document.createElement('article');
-    let image = document.createElement('img');
-    let nomProduit = document.createElement('h3');
-    let descriptionProduit = document.createElement('p');
+    const link = document.createElement('a');
+    const article = document.createElement('article');
+    const image = document.createElement('img');
+    const productName = document.createElement('h3');
+    const productDescription = document.createElement('p');
 
-    lien.href = './product.html?id=' + arr[i]._id;
+    link.href = './product.html?id=' + arr[i]._id;
     image.src = arr[i].imageUrl;
     image.alt = arr[i].altTxt;
-    nomProduit.innerText = arr[i].name;
-    descriptionProduit.innerText = arr[i].description;
+    productName.innerText = arr[i].name;
+    productDescription.innerText = arr[i].description;
 
-    items.appendChild(lien);
+    items.appendChild(link);
     article.appendChild(image);
-    article.appendChild(nomProduit);
-    article.appendChild(descriptionProduit);
-    lien.appendChild(article);
+    article.appendChild(productName);
+    article.appendChild(productDescription);
+    link.appendChild(article);
   }
 }
