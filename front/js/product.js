@@ -15,7 +15,7 @@ if (search_params.has('id')) {
 let resultArticle = [];
 
 /**
- * Requete API de l'article cliquer sur la page d'acceuille
+ * Requete API de l'article cliquer sur la page d'accueil
  */
 function callArticle() {
   fetch(`http://localhost:3000/api/products/${articleId}`)
@@ -34,7 +34,7 @@ function callArticle() {
 
 callArticle();
 
-//On recuperer les éléments HTML
+//On recupere les éléments HTML
 
 const itemImg = document.querySelector('.item__img');
 const title = document.querySelector('#title');

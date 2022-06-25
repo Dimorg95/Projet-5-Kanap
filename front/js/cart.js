@@ -17,7 +17,7 @@ if (addBasket) {
 } else {
   if (
     window.confirm(
-      `Votre panier est vide. Cliquez sur OK pour retourner sur la page d'acceuil`
+      `Votre panier est vide. Cliquez sur OK pour retourner sur la page d'accueil`
     )
   ) {
     window.location.href = 'index.html';
@@ -146,7 +146,7 @@ function deleteBasketEmpty() {
     totalQuantity.textContent = '';
     if (
       window.confirm(
-        `Vous n'avez plus d'article dans votre panier ! Cliquez sur OK pour retourner sur la page d'acceuil et continuez vos achats!`
+        `Vous n'avez plus d'article dans votre panier ! Cliquez sur OK pour retourner sur la page d'accueil et continuez vos achats!`
       )
     ) {
       window.location.href = 'index.html';

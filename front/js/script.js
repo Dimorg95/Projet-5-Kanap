@@ -21,24 +21,25 @@ function callApi() {
 callApi();
 
 /**
- * Création de la page d'acceuille via la reponse
+ * Création de la page d'accueil via la reponse
  * de notre API
  * @param {Array} arr
  */
 function createProduct(arr) {
   for (let i = 0; i < arr.length; i++) {
+    //Création des elements
     const link = document.createElement('a');
     const article = document.createElement('article');
     const image = document.createElement('img');
     const productName = document.createElement('h3');
     const productDescription = document.createElement('p');
-
+    //Mise en place contenu
     link.href = './product.html?id=' + arr[i]._id;
     image.src = arr[i].imageUrl;
     image.alt = arr[i].altTxt;
     productName.innerText = arr[i].name;
     productDescription.innerText = arr[i].description;
-
+    //Mise en place des elements dans le DOM
     items.appendChild(link);
     article.appendChild(image);
     article.appendChild(productName);
