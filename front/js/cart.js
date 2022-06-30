@@ -32,6 +32,7 @@ async function callData(arr, index) {
           //Ajout de l'image
           let image = document.querySelectorAll('.cart__item__img img');
           image[index].src = resultCall[index].imageUrl;
+          image[index].alt = resultCall[index].altTxt;
           //ajout du nom
           let name = document.querySelectorAll(
             '.cart__item__content__description h2'
