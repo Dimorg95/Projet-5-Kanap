@@ -92,15 +92,23 @@ function addBasket() {
 
       let quantityChoice = quantity.value;
 
+      //PREMIERE FACON A MODIFIER
+      // //On crée le tableau qui va recuperer nos donnée
+      // let tableProduct = {
+      //   productId: articleId,
+      //   productColor: colorChoice,
+      //   productQuantity: parseInt(quantityChoice),
+      //   productPrice: resultArticle.price,
+      //   productName: resultArticle.name,
+      //   productImage: resultArticle.imageUrl,
+      //   altImage: resultArticle.altTxt,
+      // };
+
       //On crée le tableau qui va recuperer nos donnée
       let tableProduct = {
         productId: articleId,
         productColor: colorChoice,
         productQuantity: parseInt(quantityChoice),
-        productPrice: resultArticle.price,
-        productName: resultArticle.name,
-        productImage: resultArticle.imageUrl,
-        altImage: resultArticle.altTxt,
       };
 
       let productStorage = JSON.parse(localStorage.getItem('product'));

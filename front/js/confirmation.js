@@ -1,12 +1,20 @@
-/**
- * Recuperation de l'order Id et mise en place sur la page,on supprime tout le Local Storage
- */
+//Recuperer l'orderId mis dans les parametre d'url et l'afficher sur la page !
 function confirmationCommande() {
-  let orderId = localStorage.getItem('orderId');
-  let spanId = (document.querySelector('#orderId').textContent = orderId);
-  localStorage.clear();
-}
+  const urlArticle = window.location.href;
 
+  let urlEdit = new URL(urlArticle);
+
+  let search_params = new URLSearchParams(urlEdit.search);
+
+  let orderedId;
+
+  if (search_params.has('id')) {
+    orderedId = search_params.get('id');
+  }
+
+  let spanId = (document.querySelector('#orderId').textContent = orderedId);
+}
+localStorage.clear();
 confirmationCommande();
 
 /**
